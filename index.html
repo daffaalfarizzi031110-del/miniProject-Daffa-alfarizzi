@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A minimal to-do dashboard with greeting, focus timer, task list, and quick links." />
+  <title>To-Do Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- ===== Header / Greeting ===== -->
+  <header class="header">
+    <div class="header__greeting">
+      <h1 id="greeting">Hello!</h1>
+      <p id="datetime" class="header__datetime"></p>
+    </div>
+
+    <div class="header__controls">
+      <div class="name-control">
+        <label for="nameInput" class="sr-only">Your name</label>
+        <input
+          type="text"
+          id="nameInput"
+          placeholder="Set your name…"
+          maxlength="30"
+          aria-label="Set your name for the greeting"
+        />
+      </div>
+      <button id="themeToggle" class="icon-btn" type="button" aria-label="Toggle light and dark mode" title="Toggle theme">
+        <span class="theme-icon theme-icon--sun" aria-hidden="true">☀</span>
+        <span class="theme-icon theme-icon--moon" aria-hidden="true">☾</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== Main grid ===== -->
+  <main class="grid">
+    <!-- Focus Timer -->
+    <section class="card timer" aria-labelledby="timerHeading">
+      <h2 id="timerHeading" class="card__title">Focus Timer</h2>
+
+      <div class="timer__display" id="timerDisplay">25:00</div>
+
+      <div class="timer__controls">
+        <button id="timerStart" type="button" class="btn btn--primary">Start</button>
+        <button id="timerStop" type="button" class="btn" disabled>Pause</button>
+        <button id="timerReset" type="button" class="btn">Reset</button>
+      </div>
+
+      <div class="timer__settings">
+        <label for="timerMinutes">Minutes</label>
+        <input type="number" id="timerMinutes" min="1" max="120" value="25" />
+        <button id="timerApply" type="button" class="btn btn--ghost">Apply</button>
+      </div>
+      <p class="timer__hint" id="timerHint">Default is a 25-minute Pomodoro. Change it any time.</p>
+    </section>
+
+    <!-- To-Do List -->
+    <section class="card todos" aria-labelledby="todosHeading">
+      <h2 id="todosHeading" class="card__title">To-Do List</h2>
+
+      <form id="todoForm" class="todos__form" autocomplete="off">
+        <label for="todoInput" class="sr-only">Add a task</label>
+        <input type="text" id="todoInput" placeholder="Add a new task…" maxlength="140" required />
+        <button type="submit" class="btn btn--primary">Add</button>
+      </form>
+
+      <ul id="todoList" class="todos__list" aria-live="polite"></ul>
+
+      <p id="todoEmpty" class="todos__empty">No tasks yet. Add one above to get started.</p>
+    </section>
+
+    <!-- Quick Links -->
+    <section class="card links" aria-labelledby="linksHeading">
+      <h2 id="linksHeading" class="card__title">Quick Links</h2>
+
+      <form id="linkForm" class="links__form" autocomplete="off">
+        <label for="linkName" class="sr-only">Site name</label>
+        <input type="text" id="linkName" placeholder="Name (e.g. GitHub)" maxlength="40" required />
+        <label for="linkUrl" class="sr-only">Site URL</label>
+        <input type="url" id="linkUrl" placeholder="https://example.com" required />
+        <button type="submit" class="btn btn--primary">Add</button>
+      </form>
+
+      <div id="linkList" class="links__list"></div>
+
+      <p id="linkEmpty" class="links__empty">No links yet. Add your favorite sites above.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Built with HTML, CSS &amp; Vanilla JS. Data stays in your browser.</p>
+  </footer>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>

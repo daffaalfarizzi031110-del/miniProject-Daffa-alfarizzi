@@ -1,0 +1,426 @@
+/* =========================================================
+   To-Do Dashboard — single stylesheet
+   Sections: 1. Tokens/Theme  2. Base  3. Layout
+             4. Header  5. Cards  6. Timer  7. Todos
+             8. Links  9. Buttons/Inputs  10. Responsive
+   ========================================================= */
+
+/* ---------- 1. Theme tokens ---------- */
+:root {
+  --bg: #f4f6fb;
+  --bg-card: #ffffff;
+  --text: #1f2937;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-soft: #eef2ff;
+  --danger: #ef4444;
+  --danger-soft: #fee2e2;
+  --success: #16a34a;
+  --success-soft: #dcfce7;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --radius: 14px;
+  --radius-sm: 9px;
+  --transition: 160ms ease;
+}
+
+[data-theme="dark"] {
+  --bg: #0f172a;
+  --bg-card: #1e293b;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --border: #334155;
+  --primary: #818cf8;
+  --primary-hover: #a5b4fc;
+  --primary-soft: #312e81;
+  --danger: #f87171;
+  --danger-soft: #450a0a;
+  --success: #4ade80;
+  --success-soft: #052e16;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- 2. Base ---------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  gap: 24px;
+  transition: background var(--transition), color var(--transition);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- 3. Layout ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ---------- 4. Header ---------- */
+.header {
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.header__greeting h1 {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.header__datetime {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+
+.header__controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.name-control input {
+  width: 180px;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.icon-btn:hover {
+  border-color: var(--primary);
+}
+
+/* Show only the relevant theme glyph */
+.theme-icon { display: none; font-size: 1.15rem; }
+[data-theme="light"] .theme-icon--moon { display: inline; }
+[data-theme="dark"] .theme-icon--sun { display: inline; }
+
+/* ---------- 5. Cards ---------- */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card__title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Timer card spans full width on its row */
+.timer {
+  grid-column: 1 / -1;
+}
+
+/* ---------- 6. Timer ---------- */
+.timer__display {
+  font-size: clamp(3rem, 10vw, 4.5rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: var(--primary);
+}
+
+.timer__controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.timer__settings {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.timer__settings label {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.timer__settings input {
+  width: 70px;
+  text-align: center;
+}
+
+.timer__hint {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* ---------- 7. Todos ---------- */
+.todos__form,
+.links__form {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.todos__form input { flex: 1 1 200px; }
+
+.todos__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  transition: border-color var(--transition), opacity var(--transition);
+}
+
+.todo-item.done .todo-text {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.todo-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--primary);
+  flex-shrink: 0;
+}
+
+.todo-text {
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+  font-size: 0.95rem;
+}
+
+.todo-edit-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.todo-item__actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.todo-item__actions button {
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition);
+}
+
+.todo-item__actions .edit-btn:hover { border-color: var(--primary); color: var(--primary); }
+.todo-item__actions .delete-btn:hover { border-color: var(--danger); color: var(--danger); }
+
+.todos__empty,
+.links__empty {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 8px 0;
+}
+
+/* ---------- 8. Links ---------- */
+.links__form input { flex: 1 1 120px; }
+.links__form input[type="text"] { flex: 1 1 100px; }
+
+.links__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.link-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--primary-soft);
+  transition: border-color var(--transition), transform var(--transition);
+}
+
+.link-item:hover {
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.link-item a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.link-item a:hover { text-decoration: underline; }
+
+.link-item .delete-btn {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0 2px;
+}
+
+.link-item .delete-btn:hover { color: var(--danger); }
+
+/* ---------- 9. Buttons & inputs ---------- */
+.btn {
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 9px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition),
+    color var(--transition), opacity var(--transition);
+}
+
+.btn:hover:not(:disabled) {
+  border-color: var(--primary);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+[data-theme="dark"] .btn--primary {
+  color: #0f172a;
+  background: var(--primary);
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+.btn--ghost {
+  background: transparent;
+  border-color: var(--border);
+}
+
+input[type="text"],
+input[type="url"],
+input[type="number"] {
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color var(--transition);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+/* ---------- 10. Responsive ---------- */
+@media (max-width: 720px) {
+  body { padding: 16px; gap: 18px; }
+
+  .grid { grid-template-columns: 1fr; }
+
+  .header { flex-direction: column; }
+  .header__controls { width: 100%; }
+  .name-control input { flex: 1; width: auto; }
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  margin-top: auto;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  max-width: 960px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
